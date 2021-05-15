@@ -55,7 +55,7 @@ class ProductOverviewScreen extends StatelessWidget {
         },
         gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
           maxCrossAxisExtent: MediaQuery.of(context).size.width / 2,
-          childAspectRatio: 3 / 2,
+          childAspectRatio: 1 / 1,
           crossAxisSpacing: 10,
           mainAxisSpacing: 10,
         ),
