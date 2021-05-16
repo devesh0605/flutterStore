@@ -4,10 +4,13 @@ import 'package:flutter_shop/widgets/product_item.dart';
 import 'package:provider/provider.dart';
 
 class GridViewBuilder extends StatelessWidget {
+  final bool showOnlyFavorites;
+  GridViewBuilder({this.showOnlyFavorites});
   @override
   Widget build(BuildContext context) {
     final productsData = Provider.of<Products>(context);
-    final products = productsData.item;
+    final products =
+        showOnlyFavorites ? productsData.favoriteItems : productsData.item;
     return Scrollbar(
       isAlwaysShown: true,
       showTrackOnHover: true,
@@ -15,10 +18,11 @@ class GridViewBuilder extends StatelessWidget {
         itemCount: products.length,
         padding: const EdgeInsets.all(20),
         itemBuilder: (ctx, index) {
-          return ChangeNotifierProvider(
-              create: (c) {
-                return products[index];
-              },
+          return ChangeNotifierProvider.value(
+              value: products[index],
+              // create: (c) {
+              //   return products[index];
+              // },
               child: ProductItem());
         },
         gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(

@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 class ProductItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final productDetail = Provider.of<Product>(context);
+    final productDetail = Provider.of<Product>(context, listen: false);
     return ClipRRect(
       borderRadius: BorderRadius.circular(10),
       child: GestureDetector(
@@ -25,22 +25,25 @@ class ProductItem extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
           ),
-          child: Image.network(
-            (productDetail.imageUrl),
+          child: FadeInImage.assetNetwork(
+            placeholder: 'assets/images/placeholder.png',
+            image: productDetail.imageUrl,
             fit: BoxFit.cover,
           ),
           footer: GridTileBar(
             title: Text(''),
-            leading: IconButton(
-              color: Theme.of(context).accentColor,
-              icon: Icon(
-                productDetail.isFavorite
-                    ? Icons.favorite
-                    : Icons.favorite_border,
+            leading: Consumer<Product>(
+              builder: (ctx, product, child) => IconButton(
+                color: Theme.of(context).accentColor,
+                icon: Icon(
+                  productDetail.isFavorite
+                      ? Icons.favorite
+                      : Icons.favorite_border,
+                ),
+                onPressed: () {
+                  productDetail.toggleFavoriteStatus();
+                },
               ),
-              onPressed: () {
-                productDetail.toggleFavoriteStatus();
-              },
             ),
             trailing: IconButton(
               color: Theme.of(context).accentColor,
