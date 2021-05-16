@@ -32,6 +32,7 @@ class ProductItem extends StatelessWidget {
             fit: BoxFit.cover,
           ),
           footer: GridTileBar(
+            title: Text(''),
             leading: IconButton(
               color: Theme.of(context).accentColor,
               icon: Icon(Icons.favorite),
