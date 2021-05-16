@@ -14,12 +14,12 @@ class GridViewBuilder extends StatelessWidget {
       child: GridView.builder(
         itemCount: products.length,
         padding: const EdgeInsets.all(20),
-        itemBuilder: (context, index) {
-          return ProductItem(
-            id: products[index].id,
-            title: products[index].title,
-            imageUrl: products[index].imageUrl,
-          );
+        itemBuilder: (ctx, index) {
+          return ChangeNotifierProvider(
+              create: (c) {
+                return products[index];
+              },
+              child: ProductItem());
         },
         gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
           maxCrossAxisExtent: MediaQuery.of(context).size.width / 2,

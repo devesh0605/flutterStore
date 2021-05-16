@@ -1,42 +1,46 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_shop/providers/product.dart';
 import 'package:flutter_shop/screens/product_detail_screen.dart';
+import 'package:provider/provider.dart';
 
 class ProductItem extends StatelessWidget {
-  ProductItem({this.imageUrl, this.title, this.id});
-  final String imageUrl;
-  final String id;
-  final String title;
   @override
   Widget build(BuildContext context) {
+    final productDetail = Provider.of<Product>(context);
     return ClipRRect(
       borderRadius: BorderRadius.circular(10),
       child: GestureDetector(
         onTap: () {
-          Navigator.push(context, CupertinoPageRoute(builder: (context) {
-            return ProductDetailScreen(
-              title: title,
-            );
-          }));
+          Navigator.of(context).pushNamed(
+            ProductDetailScreen.routeName,
+            arguments: productDetail.id,
+          );
         },
         child: GridTile(
           header: GridTileBar(
             backgroundColor: Colors.black54,
             title: Text(
-              title,
+              productDetail.title,
               textAlign: TextAlign.center,
             ),
           ),
           child: Image.network(
-            (imageUrl),
+            (productDetail.imageUrl),
             fit: BoxFit.cover,
           ),
           footer: GridTileBar(
             title: Text(''),
             leading: IconButton(
               color: Theme.of(context).accentColor,
-              icon: Icon(Icons.favorite),
-              onPressed: () {},
+              icon: Icon(
+                productDetail.isFavorite
+                    ? Icons.favorite
+                    : Icons.favorite_border,
+              ),
+              onPressed: () {
+                productDetail.toggleFavoriteStatus();
+              },
             ),
             trailing: IconButton(
               color: Theme.of(context).accentColor,
