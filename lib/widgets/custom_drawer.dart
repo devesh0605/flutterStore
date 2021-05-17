@@ -10,25 +10,33 @@ class CustomDrawer extends StatelessWidget {
       child: Column(
         children: [
           AppBar(
+            actions: [
+              IconButton(
+                icon: Icon(Icons.arrow_back),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
             title: Text('Hey Man'),
             automaticallyImplyLeading: false,
           ),
-          Container(
-            color: Theme.of(context).primaryColor,
-            width: double.infinity,
-            height: 150,
-            child: Center(
-              child: Text(
-                'My Shop',
-                style: TextStyle(color: Colors.white),
-              ),
-            ),
-          ),
+          // Container(
+          //   color: Theme.of(context).primaryColor,
+          //   width: double.infinity,
+          //   height: 150,
+          //   child: Center(
+          //     child: Text(
+          //       'My Shop',
+          //       style: TextStyle(color: Colors.white),
+          //     ),
+          //   ),
+          // ),
           SizedBox(
             height: 10,
           ),
           FlatButton(
-            color: Colors.grey,
+            // color: Colors.grey,
             onPressed: () {
               Navigator.pushReplacement(
                 context,
@@ -54,7 +62,7 @@ class CustomDrawer extends StatelessWidget {
             height: 10,
           ),
           FlatButton(
-            color: Colors.grey,
+            //  color: Colors.grey,
             onPressed: () {
               Navigator.pushReplacement(
                 context,
