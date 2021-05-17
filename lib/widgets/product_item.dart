@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_shop/providers/cart.dart';
 import 'package:flutter_shop/providers/product.dart';
 import 'package:flutter_shop/screens/product_detail_screen.dart';
 import 'package:provider/provider.dart';
@@ -8,6 +9,7 @@ class ProductItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final productDetail = Provider.of<Product>(context, listen: false);
+    final cartDetail = Provider.of<Cart>(context, listen: false);
     return ClipRRect(
       borderRadius: BorderRadius.circular(10),
       child: GestureDetector(
@@ -47,8 +49,13 @@ class ProductItem extends StatelessWidget {
             ),
             trailing: IconButton(
               color: Theme.of(context).accentColor,
-              icon: Icon(Icons.shopping_cart),
-              onPressed: () {},
+              icon: Icon(Icons.shopping_cart_outlined),
+              onPressed: () {
+                cartDetail.addItem(
+                    price: productDetail.price,
+                    title: productDetail.title,
+                    productId: productDetail.id);
+              },
             ),
             backgroundColor: Colors.black54,
             // title: Text(
