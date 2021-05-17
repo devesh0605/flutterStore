@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_shop/providers/cart.dart';
+import 'package:flutter_shop/providers/orders.dart';
+import 'package:flutter_shop/widgets/custom_drawer.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_shop/widgets/cart_item.dart' as ci;
 
@@ -8,10 +10,12 @@ class CartScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cartDetails = Provider.of<Cart>(context);
+    final orderDetails = Provider.of<Orders>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
         title: Text('Your Cart'),
       ),
+      drawer: CustomDrawer(),
       body: Column(
         children: <Widget>[
           Card(
@@ -37,7 +41,11 @@ class CartScreen extends StatelessWidget {
                   ),
                   // ignore: deprecated_member_use
                   FlatButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      orderDetails.addOrder(cartDetails.items.values.toList(),
+                          cartDetails.totalAmount);
+                      cartDetails.clearCart();
+                    },
                     child: Text(
                       'ORDER NOW',
                     ),
