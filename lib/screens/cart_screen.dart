@@ -41,11 +41,14 @@ class CartScreen extends StatelessWidget {
                   ),
                   // ignore: deprecated_member_use
                   FlatButton(
-                    onPressed: () {
-                      orderDetails.addOrder(cartDetails.items.values.toList(),
-                          cartDetails.totalAmount);
-                      cartDetails.clearCart();
-                    },
+                    onPressed: cartDetails.totalAmount == 0
+                        ? null
+                        : () {
+                            orderDetails.addOrder(
+                                cartDetails.items.values.toList(),
+                                cartDetails.totalAmount);
+                            cartDetails.clearCart();
+                          },
                     child: Text(
                       'ORDER NOW',
                     ),

@@ -38,8 +38,10 @@ class MyApp extends StatelessWidget {
             primarySwatch: Colors.purple,
             accentColor: Colors.orange,
           ),
-          home: ProductOverviewScreen(),
+          initialRoute: '/',
+          //home: ProductOverviewScreen(),
           routes: {
+            '/': (ctx) => ProductOverviewScreen(),
             ProductDetailScreen.routeName: (ctx) => ProductDetailScreen(),
             CartScreen.routeName: (ctx) => CartScreen(),
           }),
