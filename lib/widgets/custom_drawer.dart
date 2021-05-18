@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_shop/screens/orders_screen.dart';
 import 'package:flutter_shop/screens/products_overview_screen.dart';
+import 'package:flutter_shop/screens/user_products_screen.dart';
 
 class CustomDrawer extends StatelessWidget {
   @override
@@ -81,6 +82,32 @@ class CustomDrawer extends StatelessWidget {
                   width: 5,
                 ),
                 Text('Back to Shop'),
+              ],
+            ),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          FlatButton(
+            //  color: Colors.grey,
+            onPressed: () {
+              Navigator.pushReplacement(
+                context,
+                CupertinoPageRoute(
+                  builder: (context) {
+                    return UserProductsScreen();
+                  },
+                ),
+              );
+            },
+            child: Row(
+              //mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.edit),
+                SizedBox(
+                  width: 5,
+                ),
+                Text('Manage Products'),
               ],
             ),
           )
