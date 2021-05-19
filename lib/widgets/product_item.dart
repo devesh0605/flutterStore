@@ -27,10 +27,33 @@ class ProductItem extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
           ),
-          child: FadeInImage.assetNetwork(
-            placeholder: 'assets/images/placeholder.png',
-            image: productDetail.imageUrl,
+          child: Image.network(
+            productDetail.imageUrl,
             fit: BoxFit.cover,
+            // loadingBuilder: (BuildContext context, Widget child,
+            //     ImageChunkEvent loadingProgress) {
+            //   if (loadingProgress == null) {
+            //     return child;
+            //   }
+            //   return Center(
+            //     child: CircularProgressIndicator(
+            //       value: loadingProgress.expectedTotalBytes != null
+            //           ? loadingProgress.cumulativeBytesLoaded /
+            //               loadingProgress.expectedTotalBytes
+            //           : null,
+            //     ),
+            //   );
+            // },
+            errorBuilder: (
+              BuildContext context,
+              Object error,
+              StackTrace stackTrace,
+            ) {
+              return Image.asset(
+                'assets/images/error.jpg',
+                fit: BoxFit.cover,
+              );
+            },
           ),
           footer: GridTileBar(
             title: Text(''),

@@ -40,7 +40,7 @@ class ProductDetailScreen extends StatelessWidget {
             Text(
               '\$${data.price}',
               style: TextStyle(
-                color: Colors.grey,
+                color: Colors.white,
                 fontSize: 20,
               ),
             ),

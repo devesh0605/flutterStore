@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_shop/providers/product.dart';
+import 'package:flutter_shop/providers/products_provider.dart';
+import 'package:provider/provider.dart';
 
 class EditProductScreen extends StatefulWidget {
+  final String productId;
+  EditProductScreen({this.productId});
   @override
   _EditProductScreenState createState() => _EditProductScreenState();
 }
@@ -20,8 +24,27 @@ class _EditProductScreenState extends State<EditProductScreen> {
     imageUrl: '',
     description: '',
   );
+  var _initValues = {
+    'title': '',
+    'description': '',
+    'price': '',
+    'imageUrl': '',
+  };
   @override
   void initState() {
+    if (widget.productId != null) {
+      _editedProduct = Provider.of<Products>(context, listen: false)
+          .findById(widget.productId);
+
+      _initValues = {
+        'title': _editedProduct.title,
+        'description': _editedProduct.description,
+        'price': _editedProduct.price.toString(),
+        'imageUrl': '',
+      };
+      _imageEditingController.text = _editedProduct.imageUrl;
+    }
+
     // TODO: implement initState
     _imageURLFocusNode.addListener(_updateImageURL);
     super.initState();
@@ -57,20 +80,37 @@ class _EditProductScreenState extends State<EditProductScreen> {
       return;
     }
     _formKey.currentState.save();
-    print(_editedProduct.title);
+    if (_editedProduct.id != null) {
+      Provider.of<Products>(context, listen: false)
+          .updateProduct(_editedProduct.id, _editedProduct);
+    } else {
+      Provider.of<Products>(context, listen: false).addProduct(_editedProduct);
+    }
+    Navigator.of(context).pop();
   }
 
-  // Image giveImage(String url){
-  //   try{
-  //      return Image.network(
-  //         url,
-  //         fit: BoxFit.fitHeight,
-  //       );
-  //
-  //   }catch(e){
-  //     return Image.asset('assets/images/placeholder.jpg');
-  //   }
-  // }
+  Widget giveImage(String url) {
+    isValidImage = true;
+    return FittedBox(
+      child: Image.network(
+        url,
+        fit: BoxFit.fitHeight,
+        errorBuilder: (
+          BuildContext context,
+          Object error,
+          StackTrace stackTrace,
+        ) {
+          isValidImage = false;
+          return Image.asset(
+            'assets/images/error.jpg',
+            fit: BoxFit.fitHeight,
+          );
+        },
+      ),
+    );
+  }
+
+  bool isValidImage = false;
 
   @override
   Widget build(BuildContext context) {
@@ -91,6 +131,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
           child: ListView(
             children: <Widget>[
               TextFormField(
+                initialValue: _initValues['title'],
                 style: TextStyle(
                   color: Colors.white,
                 ),
@@ -108,12 +149,12 @@ class _EditProductScreenState extends State<EditProductScreen> {
                 },
                 onSaved: (value) {
                   _editedProduct = Product(
-                    title: value,
-                    price: _editedProduct.price,
-                    description: _editedProduct.description,
-                    imageUrl: _editedProduct.imageUrl,
-                    id: null,
-                  );
+                      title: value,
+                      price: _editedProduct.price,
+                      description: _editedProduct.description,
+                      imageUrl: _editedProduct.imageUrl,
+                      id: _editedProduct.id,
+                      isFavorite: _editedProduct.isFavorite);
                 },
                 validator: (value) {
                   if (value.isEmpty) {
@@ -123,6 +164,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                 },
               ),
               TextFormField(
+                initialValue: _initValues['price'],
                 validator: (value) {
                   if (value.isEmpty) {
                     return 'Please enter a price.';
@@ -155,20 +197,21 @@ class _EditProductScreenState extends State<EditProductScreen> {
                 },
                 onSaved: (value) {
                   _editedProduct = Product(
-                    title: _editedProduct.title,
-                    price: double.parse(value),
-                    description: _editedProduct.description,
-                    imageUrl: _editedProduct.imageUrl,
-                    id: null,
-                  );
+                      title: _editedProduct.title,
+                      price: double.parse(value),
+                      description: _editedProduct.description,
+                      imageUrl: _editedProduct.imageUrl,
+                      id: _editedProduct.id,
+                      isFavorite: _editedProduct.isFavorite);
                 },
               ),
               TextFormField(
+                initialValue: _initValues['description'],
                 validator: (value) {
                   if (value.isEmpty) {
                     return 'Enter a description';
                   }
-                  if (value.length > 10) {
+                  if (value.length < 10) {
                     return 'At least 10 characters needed';
                   }
                   return null;
@@ -193,12 +236,12 @@ class _EditProductScreenState extends State<EditProductScreen> {
                 // },
                 onSaved: (value) {
                   _editedProduct = Product(
-                    title: _editedProduct.title,
-                    price: _editedProduct.price,
-                    description: value,
-                    imageUrl: _editedProduct.imageUrl,
-                    id: null,
-                  );
+                      title: _editedProduct.title,
+                      price: _editedProduct.price,
+                      description: value,
+                      imageUrl: _editedProduct.imageUrl,
+                      id: _editedProduct.id,
+                      isFavorite: _editedProduct.isFavorite);
                 },
               ),
               Row(
@@ -219,15 +262,11 @@ class _EditProductScreenState extends State<EditProductScreen> {
                     ),
                     child: _imageEditingController.text.isEmpty
                         ? Text('Enter a URL')
-                        : FittedBox(
-                            child: Image.network(
-                              _imageEditingController.text,
-                              fit: BoxFit.fitHeight,
-                            ),
-                          ),
+                        : giveImage(_imageEditingController.text),
                   ),
                   Expanded(
                     child: TextFormField(
+                      // initialValue: _initValues['imageUrl'],
                       maxLines: 3,
                       decoration: InputDecoration(
                         labelText: 'Image URL',
@@ -241,12 +280,12 @@ class _EditProductScreenState extends State<EditProductScreen> {
                       },
                       onSaved: (value) {
                         _editedProduct = Product(
-                          title: _editedProduct.title,
-                          price: _editedProduct.price,
-                          description: _editedProduct.description,
-                          imageUrl: value,
-                          id: null,
-                        );
+                            title: _editedProduct.title,
+                            price: _editedProduct.price,
+                            description: _editedProduct.description,
+                            imageUrl: value,
+                            id: _editedProduct.id,
+                            isFavorite: _editedProduct.isFavorite);
                       },
                       validator: (value) {
                         if (value.isEmpty) {
@@ -261,6 +300,9 @@ class _EditProductScreenState extends State<EditProductScreen> {
                             !value.endsWith('jpeg')) {
                           return 'Image does not exist';
                         }
+                        // if (isValidImage == false) {
+                        //   return 'Invalid URL';
+                        // }
                         return null;
                       },
                     ),
