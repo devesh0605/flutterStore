@@ -33,8 +33,12 @@ class CustomDrawer extends StatelessWidget {
           //     ),
           //   ),
           // ),
+
           SizedBox(
             height: 10,
+          ),
+          Divider(
+            thickness: 5,
           ),
           FlatButton(
             // color: Colors.grey,
@@ -59,8 +63,8 @@ class CustomDrawer extends StatelessWidget {
               ],
             ),
           ),
-          SizedBox(
-            height: 10,
+          Divider(
+            thickness: 5,
           ),
           FlatButton(
             //  color: Colors.grey,
@@ -85,8 +89,8 @@ class CustomDrawer extends StatelessWidget {
               ],
             ),
           ),
-          SizedBox(
-            height: 10,
+          Divider(
+            thickness: 5,
           ),
           FlatButton(
             //  color: Colors.grey,
@@ -110,6 +114,9 @@ class CustomDrawer extends StatelessWidget {
                 Text('Manage Products'),
               ],
             ),
+          ),
+          Divider(
+            thickness: 5,
           )
         ],
       ),
