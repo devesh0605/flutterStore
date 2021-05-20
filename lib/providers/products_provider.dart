@@ -103,7 +103,7 @@ class Products with ChangeNotifier {
             title: prodData['title'],
             imageUrl: prodData['imageUrl'],
             description: prodData['description'],
-            price: prodData['price'],
+            price: double.parse(prodData['price'].toString()),
             isFavorite: prodData['isFavorite']));
       });
       _items = loadedProducts;
@@ -114,9 +114,19 @@ class Products with ChangeNotifier {
     }
   }
 
-  void updateProduct(String id, Product newProduct) {
+  Future<void> updateProduct(String id, Product newProduct) async {
     final prodIndex = _items.indexWhere((element) => element.id == id);
     if (prodIndex >= 0) {
+      var url = Uri.parse(
+          'https://flutter-store-90bbb-default-rtdb.firebaseio.com/products/$id.json');
+      await http.patch(url,
+          body: json.encode({
+            'title': newProduct.title,
+            'description': newProduct.description,
+            'imageUrl': newProduct.imageUrl,
+            'price': newProduct.price
+          }));
+
       _items[prodIndex] = newProduct;
     } else {
       print('....');
