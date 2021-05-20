@@ -6,6 +6,7 @@ import 'package:flutter_shop/widgets/badge.dart';
 import 'package:flutter_shop/widgets/custom_drawer.dart';
 import 'package:flutter_shop/widgets/product_grid.dart';
 import 'package:provider/provider.dart';
+import 'package:fullscreen/fullscreen.dart';
 
 enum FilterOptions {
   Favorites,
@@ -18,6 +19,14 @@ class ProductOverviewScreen extends StatefulWidget {
 }
 
 class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
+  void enterFullScreen(FullScreenMode fullScreenMode) async {
+    await FullScreen.enterFullScreen(fullScreenMode);
+  }
+
+  void exitFullScreen() async {
+    await FullScreen.exitFullScreen();
+  }
+
   var _showOnlyFavorites = false;
   var _isInit = false;
   var _isLoading = false;
@@ -53,6 +62,23 @@ class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // floatingActionButton: Row(
+      //   mainAxisAlignment: MainAxisAlignment.center,
+      //   children: <Widget>[
+      //     FloatingActionButton(
+      //       onPressed: () async {
+      //         enterFullScreen(FullScreenMode.EMERSIVE_STICKY);
+      //       },
+      //       child: new Icon(Icons.fullscreen),
+      //     ),
+      //     FloatingActionButton(
+      //       onPressed: () async {
+      //         exitFullScreen();
+      //       },
+      //       child: new Icon(Icons.fullscreen_exit),
+      //     ),
+      //   ],
+      // ),
       appBar: AppBar(
         title: Text('My Shop'),
         actions: <Widget>[
