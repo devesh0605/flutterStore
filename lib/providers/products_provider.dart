@@ -89,6 +89,19 @@ class Products with ChangeNotifier {
     // notifyListeners();
   }
 
+  Future<void> fetchAndSetProducts() async {
+    var url = Uri.parse(
+        'https://flutter-store-90bbb-default-rtdb.firebaseio.com/products.json');
+
+    try {
+      final response = await http.get(url);
+      print(jsonDecode(response.body));
+    } catch (error) {
+      print(error);
+      throw error;
+    }
+  }
+
   void updateProduct(String id, Product newProduct) {
     final prodIndex = _items.indexWhere((element) => element.id == id);
     if (prodIndex >= 0) {
