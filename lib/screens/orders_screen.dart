@@ -4,23 +4,65 @@ import 'package:flutter_shop/widgets/custom_drawer.dart';
 import 'package:flutter_shop/widgets/order_item.dart' as oi;
 import 'package:provider/provider.dart';
 
-class OrderScreen extends StatelessWidget {
+class OrderScreen extends StatefulWidget {
+  @override
+  _OrderScreenState createState() => _OrderScreenState();
+}
+
+class _OrderScreenState extends State<OrderScreen> {
+  var _isLoading = false;
+
+  //@override
+  // void initState() {
+  //   _isLoading = true;
+  //
+  //   Provider.of<Orders>(context, listen: false).fetchAndSetOrders().then((_) {
+  //     setState(() {
+  //       _isLoading = false;
+  //     });
+  //   });
+  //
+  //   // TODO: implement initState
+  //   super.initState();
+  // }
+
   @override
   Widget build(BuildContext context) {
-    final orderDetails = Provider.of<Orders>(context);
+    //final orderDetails = Provider.of<Orders>(context);
     return Scaffold(
       appBar: AppBar(
         title: Text('Your Orders'),
       ),
       drawer: CustomDrawer(),
-      body: ListView.builder(
-        itemCount: orderDetails.orders.length,
-        itemBuilder: (ctx, index) {
-          return oi.OrderItem(
-            order: orderDetails.orders[index],
-          );
-        },
-      ),
+      body: FutureBuilder(
+          future:
+              Provider.of<Orders>(context, listen: false).fetchAndSetOrders(),
+          builder: (ctx, dataSnapshot) {
+            if (dataSnapshot.connectionState == ConnectionState.waiting) {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            } else {
+              if (dataSnapshot.error != null) {
+                return Center(
+                  child: Text(
+                    'YOu fucked up',
+                  ),
+                );
+              } else {
+                return Consumer<Orders>(
+                  builder: (ctx, orderDetails, child) => ListView.builder(
+                    itemCount: orderDetails.orders.length,
+                    itemBuilder: (ctx, index) {
+                      return oi.OrderItem(
+                        order: orderDetails.orders[index],
+                      );
+                    },
+                  ),
+                );
+              }
+            }
+          }),
     );
   }
 }
