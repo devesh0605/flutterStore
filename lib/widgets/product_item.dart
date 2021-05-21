@@ -66,7 +66,7 @@ class ProductItem extends StatelessWidget {
                       : Icons.favorite_border,
                 ),
                 onPressed: () {
-                  productDetail.toggleFavoriteStatus();
+                  productDetail.toggleFavoriteStatus(context);
                 },
               ),
             ),
