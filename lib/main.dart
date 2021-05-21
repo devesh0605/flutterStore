@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_shop/providers/cart.dart';
 import 'package:flutter_shop/providers/orders.dart';
 import 'package:flutter_shop/providers/products_provider.dart';
+import 'package:flutter_shop/screens/4.1%20auth_screen.dart';
 import 'package:flutter_shop/screens/cart_screen.dart';
 import 'package:flutter_shop/screens/product_detail_screen.dart';
 import 'package:flutter_shop/screens/products_overview_screen.dart';
@@ -27,24 +28,26 @@ class MyApp extends StatelessWidget {
         ),
       ],
       child: MaterialApp(
-          title: 'Shop',
-          debugShowCheckedModeBanner: false,
-          theme: ThemeData(
-            scaffoldBackgroundColor: Colors.purple[200],
-            backgroundColor: Colors.purple[200],
-            appBarTheme: AppBarTheme(
-              centerTitle: true,
-            ),
-            primarySwatch: Colors.purple,
-            accentColor: Colors.orange,
+        title: 'Shop',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          scaffoldBackgroundColor: Colors.purple[200],
+          backgroundColor: Colors.purple[200],
+          appBarTheme: AppBarTheme(
+            centerTitle: true,
           ),
-          initialRoute: '/',
-          //home: ProductOverviewScreen(),
-          routes: {
-            '/': (ctx) => ProductOverviewScreen(),
-            ProductDetailScreen.routeName: (ctx) => ProductDetailScreen(),
-            CartScreen.routeName: (ctx) => CartScreen(),
-          }),
+          primarySwatch: Colors.purple,
+          accentColor: Colors.orange,
+        ),
+        home: AuthScreen(),
+        //initialRoute: '/',
+        //home: ProductOverviewScreen(),
+        // routes: {
+        //   '/': (ctx) => ProductOverviewScreen(),
+        //   ProductDetailScreen.routeName: (ctx) => ProductDetailScreen(),
+        //   CartScreen.routeName: (ctx) => CartScreen(),
+        // },
+      ),
     );
   }
 }

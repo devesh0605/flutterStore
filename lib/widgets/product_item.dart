@@ -14,10 +14,13 @@ class ProductItem extends StatelessWidget {
       borderRadius: BorderRadius.circular(10),
       child: GestureDetector(
         onTap: () {
-          Navigator.of(context).pushNamed(
-            ProductDetailScreen.routeName,
-            arguments: productDetail.id,
-          );
+          // Navigator.of(context).pushNamed(
+          //   ProductDetailScreen.routeName,
+          //   arguments: productDetail.id,
+          // );
+          Navigator.push(context, MaterialPageRoute(builder: (context) {
+            return ProductDetailScreen(id: productDetail.id);
+          }));
         },
         child: GridTile(
           header: GridTileBar(

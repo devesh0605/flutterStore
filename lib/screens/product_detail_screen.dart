@@ -4,11 +4,11 @@ import 'package:flutter_shop/widgets/custom_drawer.dart';
 import 'package:provider/provider.dart';
 
 class ProductDetailScreen extends StatelessWidget {
-  static const routeName = '/product-detail';
+  //static const routeName = '/product-detail';
 
-  // ProductDetailScreen({this.title, this.id});
-  // final String title;
-  // final String id;
+  ProductDetailScreen({@required this.id});
+  //final String title;
+  final String id;
 
   @override
   Widget build(BuildContext context) {

@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:flutter_shop/widgets/cart_item.dart' as ci;
 
 class CartScreen extends StatelessWidget {
-  static const routeName = '/cart';
+  //static const routeName = '/cart';
   @override
   Widget build(BuildContext context) {
     final cartDetails = Provider.of<Cart>(context);

@@ -10,8 +10,6 @@ class OrderScreen extends StatefulWidget {
 }
 
 class _OrderScreenState extends State<OrderScreen> {
-  var _isLoading = false;
-
   //@override
   // void initState() {
   //   _isLoading = true;
@@ -34,35 +32,40 @@ class _OrderScreenState extends State<OrderScreen> {
         title: Text('Your Orders'),
       ),
       drawer: CustomDrawer(),
-      body: FutureBuilder(
-          future:
-              Provider.of<Orders>(context, listen: false).fetchAndSetOrders(),
-          builder: (ctx, dataSnapshot) {
-            if (dataSnapshot.connectionState == ConnectionState.waiting) {
-              return Center(
-                child: CircularProgressIndicator(),
-              );
-            } else {
-              if (dataSnapshot.error != null) {
+      body: RefreshIndicator(
+        onRefresh: () async {
+          await Provider.of<Orders>(context, listen: false).fetchAndSetOrders();
+        },
+        child: FutureBuilder(
+            future:
+                Provider.of<Orders>(context, listen: false).fetchAndSetOrders(),
+            builder: (ctx, dataSnapshot) {
+              if (dataSnapshot.connectionState == ConnectionState.waiting) {
                 return Center(
-                  child: Text(
-                    'YOu fucked up',
-                  ),
+                  child: CircularProgressIndicator(),
                 );
               } else {
-                return Consumer<Orders>(
-                  builder: (ctx, orderDetails, child) => ListView.builder(
-                    itemCount: orderDetails.orders.length,
-                    itemBuilder: (ctx, index) {
-                      return oi.OrderItem(
-                        order: orderDetails.orders[index],
-                      );
-                    },
-                  ),
-                );
+                if (dataSnapshot.error != null) {
+                  return Center(
+                    child: Text(
+                      'Something is wrong!!',
+                    ),
+                  );
+                } else {
+                  return Consumer<Orders>(
+                    builder: (ctx, orderDetails, child) => ListView.builder(
+                      itemCount: orderDetails.orders.length,
+                      itemBuilder: (ctx, index) {
+                        return oi.OrderItem(
+                          order: orderDetails.orders[index],
+                        );
+                      },
+                    ),
+                  );
+                }
               }
-            }
-          }),
+            }),
+      ),
     );
   }
 }
