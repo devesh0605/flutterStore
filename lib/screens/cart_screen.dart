@@ -26,34 +26,24 @@ class CartScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Text(
-                    'Total',
+                    'Total=>',
                     style: TextStyle(
                       fontSize: 20,
                       color: Colors.black,
                     ),
                   ),
-                  Spacer(),
+
                   Chip(
                     label: Text(
                       '\$ ${cartDetails.totalAmount.toStringAsFixed(2)}',
+                      style: TextStyle(color: Colors.white),
                     ),
                     backgroundColor: Theme.of(context).primaryColor,
                   ),
                   // ignore: deprecated_member_use
-                  FlatButton(
-                    onPressed: cartDetails.totalAmount == 0
-                        ? null
-                        : () {
-                            orderDetails.addOrder(
-                                cartDetails.items.values.toList(),
-                                cartDetails.totalAmount);
-                            cartDetails.clearCart();
-                          },
-                    child: Text(
-                      'ORDER NOW',
-                    ),
-                    textColor: Theme.of(context).primaryColor,
-                  )
+                  Spacer(),
+                  MyFlatButton(
+                      cartDetails: cartDetails, orderDetails: orderDetails)
                 ],
               ),
             ),
@@ -77,6 +67,59 @@ class CartScreen extends StatelessWidget {
           )
         ],
       ),
+    );
+  }
+}
+
+class MyFlatButton extends StatefulWidget {
+  const MyFlatButton({
+    Key key,
+    @required this.cartDetails,
+    @required this.orderDetails,
+  }) : super(key: key);
+
+  final Cart cartDetails;
+  final Orders orderDetails;
+
+  @override
+  _MyFlatButtonState createState() => _MyFlatButtonState();
+}
+
+class _MyFlatButtonState extends State<MyFlatButton> {
+  var _isLoading = false;
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      style:
+          ButtonStyle(backgroundColor: MaterialStateProperty.resolveWith<Color>(
+        (Set<MaterialState> states) {
+          if (states.contains(MaterialState.pressed)) return Colors.black;
+          return null; // Use the component's default.
+        },
+      )),
+      onPressed: (widget.cartDetails.totalAmount == 0 || _isLoading)
+          ? null
+          : () async {
+              setState(() {
+                _isLoading = true;
+              });
+              await widget.orderDetails.addOrder(
+                  widget.cartDetails.items.values.toList(),
+                  widget.cartDetails.totalAmount);
+              setState(() {
+                _isLoading = false;
+              });
+              widget.cartDetails.clearCart();
+            },
+      child: _isLoading
+          ? CircularProgressIndicator()
+          : Text(
+              widget.cartDetails.totalAmount == 0 ? 'CART EMPTY' : 'ORDER NOW',
+              style: TextStyle(
+                  color: widget.cartDetails.totalAmount == 0
+                      ? Colors.black
+                      : Colors.white),
+            ),
     );
   }
 }
