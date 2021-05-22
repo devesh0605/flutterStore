@@ -7,6 +7,7 @@ import 'package:flutter_shop/screens/auth_screen.dart';
 import 'package:flutter_shop/screens/cart_screen.dart';
 import 'package:flutter_shop/screens/product_detail_screen.dart';
 import 'package:flutter_shop/screens/products_overview_screen.dart';
+import 'package:flutter_shop/screens/test.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -53,6 +54,7 @@ class MyApp extends StatelessWidget {
               primarySwatch: Colors.purple,
               accentColor: Colors.orange,
             ),
+            //home: Test(),
             home: authData.isAuth ? ProductOverviewScreen() : AuthScreen(),
             //initialRoute: '/',
             //home: ProductOverviewScreen(),

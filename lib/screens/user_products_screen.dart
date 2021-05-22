@@ -13,7 +13,6 @@ class UserProductsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('dfsdf');
     // final productDetails = Provider.of<Products>(context);
     return Scaffold(
       drawer: CustomDrawer(),
