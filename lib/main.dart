@@ -5,6 +5,7 @@ import 'package:flutter_shop/providers/orders.dart';
 import 'package:flutter_shop/providers/products_provider.dart';
 import 'package:flutter_shop/screens/auth_screen.dart';
 import 'package:flutter_shop/screens/products_overview_screen.dart';
+import 'package:flutter_shop/screens/splash_screen.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -53,7 +54,16 @@ class MyApp extends StatelessWidget {
             ),
             //home: Test(),
             //home: TestTwo(),
-            home: authData.isAuth ? ProductOverviewScreen() : AuthScreen(),
+            home: authData.isAuth
+                ? ProductOverviewScreen()
+                : FutureBuilder(
+                    future: authData.tryAutoLogin(),
+                    builder: (ctx, authResultSnapshot) =>
+                        authResultSnapshot.connectionState ==
+                                ConnectionState.waiting
+                            ? SplashScreen()
+                            : AuthScreen(),
+                  ),
             //initialRoute: '/',
             //home: ProductOverviewScreen(),
             // routes: {

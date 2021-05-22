@@ -48,6 +48,28 @@ class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
 
     super.initState();
   }
+  //
+  // @override
+  // void initState() {
+  //   // TODO: implement initState
+  //   super.initState();
+  // }
+
+  // @override
+  // void didChangeDependencies() {
+  //   if (_isInit) {
+  //     setState(() {
+  //       _isLoading = true;
+  //     });
+  //     Provider.of<Products>(context).fetchAndSetProducts().then((_) {
+  //       setState(() {
+  //         _isLoading = false;
+  //       });
+  //     });
+  //   }
+  //   _isInit = false;
+  //   super.didChangeDependencies();
+  // }
 
   // @override
   // void didChangeDependencies() {
@@ -133,11 +155,9 @@ class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
               child: CircularProgressIndicator(
                   //backgroundColor: Colors.black,
                   ))
-          : Provider.of<Products>(context, listen: false).item.isEmpty
-              ? Center(child: Text('SHOP CLOSED!!'))
-              : GridViewBuilder(
-                  showOnlyFavorites: _showOnlyFavorites,
-                ),
+          : GridViewBuilder(
+              showOnlyFavorites: _showOnlyFavorites,
+            ),
     );
   }
 }

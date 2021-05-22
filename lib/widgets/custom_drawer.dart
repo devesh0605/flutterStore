@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_shop/providers/auth.dart';
+import 'package:flutter_shop/screens/auth_screen.dart';
 import 'package:flutter_shop/screens/orders_screen.dart';
 import 'package:flutter_shop/screens/products_overview_screen.dart';
 import 'package:flutter_shop/screens/user_products_screen.dart';
@@ -134,6 +135,10 @@ class CustomDrawer extends StatelessWidget {
                 //  color: Colors.grey,
                 onPressed: () {
                   Navigator.of(context).pop();
+                  Navigator.pushReplacement(context,
+                      MaterialPageRoute(builder: (context) {
+                    return AuthScreen();
+                  }));
                   Provider.of<Auth>(context, listen: false).logout();
                 },
                 child: Row(

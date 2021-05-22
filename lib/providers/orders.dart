@@ -36,7 +36,7 @@ class Orders with ChangeNotifier {
         'https://flutter-store-90bbb-default-rtdb.firebaseio.com/orders/$userId.json?auth=$authToken');
 
     final response = await http.get(url);
-    // print(json.decode(response.body));
+    //print(json.decode(response.body));
     final List<OrderItem> loadedOrders = [];
     final extractedData = json.decode(response.body) as Map<String, dynamic>;
     if (extractedData == null) {
@@ -48,12 +48,12 @@ class Orders with ChangeNotifier {
           id: key,
           products: (value['products'] as List<dynamic>).map((e) {
             return CartItem(
-                id: e['id'],
-                price: e['price'],
-                quantity: e['quantity'],
-                title: e['title']);
+                id: e['id'].toString(),
+                price: double.parse(e['price'].toString()),
+                quantity: int.parse(e['quantity'].toString()),
+                title: e['title'].toString());
           }).toList(),
-          amount: value['amount'],
+          amount: double.parse(value['amount'].toString()),
           dateTime: DateTime.parse(value['dateTime']),
         ),
       );
