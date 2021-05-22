@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class Products with ChangeNotifier {
-  List<Product> _items = [
+  List<Product> items = [
     // Product(
     //   id: 'p1',
     //   title: 'Red Shirt',
@@ -39,17 +39,19 @@ class Products with ChangeNotifier {
     //       'https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Cast-Iron-Pan.jpg/1024px-Cast-Iron-Pan.jpg',
     // ),
   ];
+  final String authToken;
+  Products({@required this.authToken, this.items});
 
   List<Product> get item {
-    return [..._items];
+    return [...items];
   }
 
   List<Product> get favoriteItems {
-    return _items.where((element) => element.isFavorite).toList();
+    return items.where((element) => element.isFavorite).toList();
   }
 
   Product findById(String id) {
-    return _items.firstWhere((element) => element.id == id);
+    return items.firstWhere((element) => element.id == id);
   }
 
   Future<void> addProduct(Product product) async {
@@ -72,7 +74,7 @@ class Products with ChangeNotifier {
         description: product.description,
         price: product.price,
       );
-      _items.add(newProduct);
+      items.add(newProduct);
       notifyListeners();
     } catch (error) {
       print(error);
@@ -92,7 +94,7 @@ class Products with ChangeNotifier {
 
   Future<void> fetchAndSetProducts() async {
     var url = Uri.parse(
-        'https://flutter-store-90bbb-default-rtdb.firebaseio.com/products.json');
+        'https://flutter-store-90bbb-default-rtdb.firebaseio.com/products.json?auth=$authToken');
 
     try {
       final response = await http.get(url);
@@ -111,7 +113,7 @@ class Products with ChangeNotifier {
             price: double.parse(prodData['price'].toString()),
             isFavorite: prodData['isFavorite']));
       });
-      _items = loadedProducts;
+      items = loadedProducts;
       notifyListeners();
     } catch (error) {
       print(error);
@@ -120,7 +122,7 @@ class Products with ChangeNotifier {
   }
 
   Future<void> updateProduct(String id, Product newProduct) async {
-    final prodIndex = _items.indexWhere((element) => element.id == id);
+    final prodIndex = items.indexWhere((element) => element.id == id);
     if (prodIndex >= 0) {
       var url = Uri.parse(
           'https://flutter-store-90bbb-default-rtdb.firebaseio.com/products/$id.json');
@@ -132,7 +134,7 @@ class Products with ChangeNotifier {
             'price': newProduct.price
           }));
 
-      _items[prodIndex] = newProduct;
+      items[prodIndex] = newProduct;
     } else {
       print('....');
     }
@@ -144,14 +146,14 @@ class Products with ChangeNotifier {
     var url = Uri.parse(
         'https://flutter-store-90bbb-default-rtdb.firebaseio.com/products/$id.json');
     final existingProductIndex =
-        _items.indexWhere((element) => element.id == id);
-    var existingProduct = _items[existingProductIndex];
-    _items.removeAt(existingProductIndex);
+        items.indexWhere((element) => element.id == id);
+    var existingProduct = items[existingProductIndex];
+    items.removeAt(existingProductIndex);
     notifyListeners();
     final response = await http.delete(url);
 
     if (response.statusCode >= 400) {
-      _items.insert(existingProductIndex, existingProduct);
+      items.insert(existingProductIndex, existingProduct);
       notifyListeners();
       throw HttpException(
         message: 'Could not delete product.',
