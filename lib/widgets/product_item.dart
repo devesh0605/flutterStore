@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_shop/providers/auth.dart';
 import 'package:flutter_shop/providers/cart.dart';
 import 'package:flutter_shop/providers/product.dart';
 import 'package:flutter_shop/screens/product_detail_screen.dart';
@@ -8,6 +9,7 @@ import 'package:provider/provider.dart';
 class ProductItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final authDetails = Provider.of<Auth>(context, listen: false);
     final productDetail = Provider.of<Product>(context, listen: false);
     final cartDetail = Provider.of<Cart>(context, listen: false);
     return ClipRRect(
@@ -69,7 +71,8 @@ class ProductItem extends StatelessWidget {
                       : Icons.favorite_border,
                 ),
                 onPressed: () {
-                  productDetail.toggleFavoriteStatus(context);
+                  productDetail.toggleFavoriteStatus(
+                      context, authDetails.token);
                 },
               ),
             ),

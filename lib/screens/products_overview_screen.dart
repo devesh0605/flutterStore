@@ -133,9 +133,11 @@ class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
               child: CircularProgressIndicator(
                   //backgroundColor: Colors.black,
                   ))
-          : GridViewBuilder(
-              showOnlyFavorites: _showOnlyFavorites,
-            ),
+          : Provider.of<Products>(context, listen: false).item.isEmpty
+              ? Center(child: Text('SHOP CLOSED!!'))
+              : GridViewBuilder(
+                  showOnlyFavorites: _showOnlyFavorites,
+                ),
     );
   }
 }
