@@ -31,26 +31,51 @@ class MyApp extends StatelessWidget {
           create: (ctx) => Auth(),
         )
       ],
-      child: MaterialApp(
-        title: 'Shop',
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          scaffoldBackgroundColor: Colors.purple[200],
-          backgroundColor: Colors.purple[200],
-          appBarTheme: AppBarTheme(
-            centerTitle: true,
-          ),
-          primarySwatch: Colors.purple,
-          accentColor: Colors.orange,
-        ),
-        home: AuthScreen(),
-        //initialRoute: '/',
-        //home: ProductOverviewScreen(),
-        // routes: {
-        //   '/': (ctx) => ProductOverviewScreen(),
-        //   ProductDetailScreen.routeName: (ctx) => ProductDetailScreen(),
-        //   CartScreen.routeName: (ctx) => CartScreen(),
-        // },
+      child: Consumer<Auth>(
+        builder: (ctx, authData, _) {
+          return MaterialApp(
+            title: 'Shop',
+            debugShowCheckedModeBanner: false,
+            theme: ThemeData(
+              scaffoldBackgroundColor: Colors.purple[200],
+              backgroundColor: Colors.purple[200],
+              appBarTheme: AppBarTheme(
+                centerTitle: true,
+              ),
+              primarySwatch: Colors.purple,
+              accentColor: Colors.orange,
+            ),
+            home: authData.isAuth ? ProductOverviewScreen() : AuthScreen(),
+            //initialRoute: '/',
+            //home: ProductOverviewScreen(),
+            // routes: {
+            //   '/': (ctx) => ProductOverviewScreen(),
+            //   ProductDetailScreen.routeName: (ctx) => ProductDetailScreen(),
+            //   CartScreen.routeName: (ctx) => CartScreen(),
+            // },
+          );
+        },
+        // child: MaterialApp(
+        //   title: 'Shop',
+        //   debugShowCheckedModeBanner: false,
+        //   theme: ThemeData(
+        //     scaffoldBackgroundColor: Colors.purple[200],
+        //     backgroundColor: Colors.purple[200],
+        //     appBarTheme: AppBarTheme(
+        //       centerTitle: true,
+        //     ),
+        //     primarySwatch: Colors.purple,
+        //     accentColor: Colors.orange,
+        //   ),
+        //   home: AuthScreen(),
+        //   //initialRoute: '/',
+        //   //home: ProductOverviewScreen(),
+        //   // routes: {
+        //   //   '/': (ctx) => ProductOverviewScreen(),
+        //   //   ProductDetailScreen.routeName: (ctx) => ProductDetailScreen(),
+        //   //   CartScreen.routeName: (ctx) => CartScreen(),
+        //   // },
+        // ),
       ),
     );
   }

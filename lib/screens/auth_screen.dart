@@ -137,9 +137,10 @@ class _AuthCardState extends State<AuthCard> {
           _authData['email'],
           _authData['password'],
         );
-        Navigator.push(context, MaterialPageRoute(builder: (context) {
-          return ProductOverviewScreen();
-        }));
+        // Navigator.pushReplacement(context,
+        //     MaterialPageRoute(builder: (context) {
+        //   return ProductOverviewScreen();
+        // }));
         // Log user in
       } else {
         await Provider.of<Auth>(context, listen: false).signUp(
