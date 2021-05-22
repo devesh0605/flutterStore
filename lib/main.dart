@@ -8,6 +8,7 @@ import 'package:flutter_shop/screens/cart_screen.dart';
 import 'package:flutter_shop/screens/product_detail_screen.dart';
 import 'package:flutter_shop/screens/products_overview_screen.dart';
 import 'package:flutter_shop/screens/test.dart';
+import 'package:flutter_shop/screens/testtwo.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -35,9 +36,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProxyProvider<Auth, Orders>(
           create: null,
           update: (ctx, auth, previousOrders) => Orders(
-            ordersList: previousOrders == null ? [] : previousOrders.orders,
-            authToken: auth.token,
-          ),
+              ordersList: previousOrders == null ? [] : previousOrders.orders,
+              authToken: auth.token,
+              userId: auth.userId),
         ),
       ],
       child: Consumer<Auth>(
@@ -55,6 +56,7 @@ class MyApp extends StatelessWidget {
               accentColor: Colors.orange,
             ),
             //home: Test(),
+            //home: TestTwo(),
             home: authData.isAuth ? ProductOverviewScreen() : AuthScreen(),
             //initialRoute: '/',
             //home: ProductOverviewScreen(),

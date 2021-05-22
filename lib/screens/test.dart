@@ -33,6 +33,7 @@ class _TestState extends State<Test> {
       counter++;
       isLoading = true;
     });
+
     var url = Uri.parse('https://jsonplaceholder.typicode.com/todos/$counter');
 
     var response = await http.get(url);
@@ -62,7 +63,10 @@ class _TestState extends State<Test> {
           ? Center(child: CircularProgressIndicator())
           : Center(
               child: _newAttribute.isEmpty
-                  ? Text('Call Something')
+                  ? Image.network(
+                      'https://raw.githubusercontent.com/devesh0605/devesh0605/main/profile-pic.png',
+                      fit: BoxFit.cover,
+                    )
                   : Scrollbar(
                       isAlwaysShown: true,
                       showTrackOnHover: true,
