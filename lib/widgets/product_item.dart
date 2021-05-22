@@ -72,7 +72,10 @@ class ProductItem extends StatelessWidget {
                 ),
                 onPressed: () {
                   productDetail.toggleFavoriteStatus(
-                      context, authDetails.token);
+                    context,
+                    authDetails.token,
+                    authDetails.userId,
+                  );
                 },
               ),
             ),

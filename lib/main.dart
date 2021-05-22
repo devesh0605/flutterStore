@@ -24,6 +24,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProxyProvider<Auth, Products>(
           create: null,
           update: (ctx, auth, previousProducts) => Products(
+              userId: auth.userId,
               authToken: auth.token,
               items: previousProducts == null ? [] : previousProducts.items),
         ),

@@ -40,7 +40,8 @@ class Products with ChangeNotifier {
     // ),
   ];
   final String authToken;
-  Products({@required this.authToken, this.items});
+  final String userId;
+  Products({@required this.authToken, this.items, @required this.userId});
 
   List<Product> get item {
     return [...items];
@@ -64,7 +65,7 @@ class Products with ChangeNotifier {
             'description': product.description,
             'price': product.price,
             'imageUrl': product.imageUrl,
-            'isFavorite': product.isFavorite
+            //'isFavorite': product.isFavorite
           }));
       final newProduct = Product(
         //id: DateTime.now().toString(),
@@ -104,14 +105,22 @@ class Products with ChangeNotifier {
       if (extractedData == null) {
         return;
       }
+      url = Uri.parse(
+          'https://flutter-store-90bbb-default-rtdb.firebaseio.com/userFavorites/$userId.json?auth=$authToken');
+      final favoriteResponse = await http.get(url);
+      final favoriteData = json.decode(favoriteResponse.body);
       extractedData.forEach((prodId, prodData) {
-        loadedProducts.add(Product(
+        loadedProducts.add(
+          Product(
             id: prodId,
             title: prodData['title'],
             imageUrl: prodData['imageUrl'],
             description: prodData['description'],
             price: double.parse(prodData['price'].toString()),
-            isFavorite: prodData['isFavorite']));
+            isFavorite:
+                favoriteData == null ? false : favoriteData[prodId] ?? false,
+          ),
+        );
       });
       items = loadedProducts;
       notifyListeners();

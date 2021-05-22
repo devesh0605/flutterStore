@@ -40,6 +40,7 @@ class _OrderScreenState extends State<OrderScreen> {
             future:
                 Provider.of<Orders>(context, listen: false).fetchAndSetOrders(),
             builder: (ctx, dataSnapshot) {
+              print(dataSnapshot);
               if (dataSnapshot.connectionState == ConnectionState.waiting) {
                 return Center(
                   child: CircularProgressIndicator(),
