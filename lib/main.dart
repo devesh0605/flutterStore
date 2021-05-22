@@ -4,11 +4,7 @@ import 'package:flutter_shop/providers/cart.dart';
 import 'package:flutter_shop/providers/orders.dart';
 import 'package:flutter_shop/providers/products_provider.dart';
 import 'package:flutter_shop/screens/auth_screen.dart';
-import 'package:flutter_shop/screens/cart_screen.dart';
-import 'package:flutter_shop/screens/product_detail_screen.dart';
 import 'package:flutter_shop/screens/products_overview_screen.dart';
-import 'package:flutter_shop/screens/test.dart';
-import 'package:flutter_shop/screens/testtwo.dart';
 import 'package:provider/provider.dart';
 
 void main() {
