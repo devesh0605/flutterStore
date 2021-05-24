@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_shop/helpers/custom_route.dart';
 import 'package:flutter_shop/providers/auth.dart';
 import 'package:flutter_shop/screens/auth_screen.dart';
 import 'package:flutter_shop/screens/orders_screen.dart';
@@ -51,7 +52,7 @@ class CustomDrawer extends StatelessWidget {
                 onPressed: () {
                   Navigator.pushReplacement(
                     context,
-                    CupertinoPageRoute(
+                    CustomRoute(
                       builder: (context) {
                         return OrderScreen();
                       },
