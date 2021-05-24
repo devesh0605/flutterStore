@@ -24,9 +24,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProxyProvider<Auth, Products>(
           create: null,
           update: (ctx, auth, previousProducts) => Products(
-              userId: auth.userId,
-              authToken: auth.token,
-              items: previousProducts == null ? [] : previousProducts.items),
+              auth.userId,
+              auth.token,
+              previousProducts == null ? [] : previousProducts.item),
         ),
         ChangeNotifierProvider(
           create: (ctx) => Cart(),
@@ -54,17 +54,17 @@ class MyApp extends StatelessWidget {
               accentColor: Colors.orange,
             ),
             //home: Test(),
-            home: TestTwo(),
-            // home: authData.isAuth
-            //     ? ProductOverviewScreen()
-            //     : FutureBuilder(
-            //         future: authData.tryAutoLogin(),
-            //         builder: (ctx, authResultSnapshot) =>
-            //             authResultSnapshot.connectionState ==
-            //                     ConnectionState.waiting
-            //                 ? SplashScreen()
-            //                 : AuthScreen(),
-            //       ),
+            //home: TestTwo(),
+            home: authData.isAuth
+                ? ProductOverviewScreen()
+                : FutureBuilder(
+                    future: authData.tryAutoLogin(),
+                    builder: (ctx, authResultSnapshot) =>
+                        authResultSnapshot.connectionState ==
+                                ConnectionState.waiting
+                            ? SplashScreen()
+                            : AuthScreen(),
+                  ),
             //initialRoute: '/',
             //home: ProductOverviewScreen(),
             // routes: {
@@ -72,6 +72,48 @@ class MyApp extends StatelessWidget {
             //   ProductDetailScreen.routeName: (ctx) => ProductDetailScreen(),
             //   CartScreen.routeName: (ctx) => CartScreen(),
             // },
+            // home: Scaffold(
+            //   appBar: AppBar(
+            //     title: Text('Shop App'),
+            //     centerTitle: true,
+            //   ),
+            //   body: Builder(
+            //     builder: (context) {
+            //       return Column(
+            //         children: [
+            //           Center(
+            //             child: FlatButton(
+            //               child: Text('Click me'),
+            //               onPressed: () {
+            //                 Navigator.push(context,
+            //                     MaterialPageRoute(builder: (context) {
+            //                   return MyHomePage2();
+            //                 }));
+            //               },
+            //             ),
+            //           ),
+            //           Center(
+            //             child: FlatButton(
+            //               child: Text('Click me'),
+            //               onPressed: () {
+            //                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            //                   content: Text('Some Message'),
+            //                   action: SnackBarAction(
+            //                     label: 'UNDO',
+            //                     onPressed: () {
+            //                       ScaffoldMessenger.of(context)
+            //                           .hideCurrentSnackBar();
+            //                     },
+            //                   ),
+            //                 ));
+            //               },
+            //             ),
+            //           ),
+            //         ],
+            //       );
+            //     },
+            //   ),
+            // ),
           );
         },
         // child: MaterialApp(
@@ -101,6 +143,28 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Shop App'),
+        centerTitle: true,
+      ),
+      body: Center(
+        child: FlatButton(
+          child: Text('Click me'),
+          onPressed: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context) {
+              return MyHomePage2();
+            }));
+          },
+        ),
+      ),
+    );
+  }
+}
+
+class MyHomePage2 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

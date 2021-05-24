@@ -19,16 +19,8 @@ class ProductOverviewScreen extends StatefulWidget {
 }
 
 class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
-  void enterFullScreen(FullScreenMode fullScreenMode) async {
-    await FullScreen.enterFullScreen(fullScreenMode);
-  }
-
-  void exitFullScreen() async {
-    await FullScreen.exitFullScreen();
-  }
-
   var _showOnlyFavorites = false;
-  var _isInit = false;
+  var _isInit = true;
   var _isLoading = false;
   @override
   void initState() {
@@ -48,36 +40,29 @@ class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
 
     super.initState();
   }
-  //
+
   // @override
   // void initState() {
-  //   // TODO: implement initState
   //   super.initState();
   // }
-
+  //
   // @override
   // void didChangeDependencies() {
   //   if (_isInit) {
   //     setState(() {
   //       _isLoading = true;
   //     });
-  //     Provider.of<Products>(context).fetchAndSetProducts().then((_) {
-  //       setState(() {
-  //         _isLoading = false;
+  //     Future.delayed(Duration(milliseconds: 300)).then((_) async {
+  //       await Provider.of<Products>(context, listen: false)
+  //           .fetchAndSetProducts()
+  //           .then((_) {
+  //         setState(() {
+  //           _isLoading = false;
+  //         });
   //       });
   //     });
   //   }
   //   _isInit = false;
-  //   super.didChangeDependencies();
-  // }
-
-  // @override
-  // void didChangeDependencies() {
-  //   // TODO: implement didChangeDependencies
-  //   if (_isInit) {
-  //     Provider.of<Products>(context, listen: false).fetchAndSetProducts();
-  //   }
-  //
   //   super.didChangeDependencies();
   // }
 

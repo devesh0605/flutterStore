@@ -8,7 +8,7 @@ class GridViewBuilder extends StatelessWidget {
   GridViewBuilder({this.showOnlyFavorites});
   @override
   Widget build(BuildContext context) {
-    final productsData = Provider.of<Products>(context);
+    final productsData = Provider.of<Products>(context, listen: false);
     final products =
         showOnlyFavorites ? productsData.favoriteItems : productsData.item;
     return Scrollbar(
@@ -25,8 +25,9 @@ class GridViewBuilder extends StatelessWidget {
               // },
               child: ProductItem());
         },
-        gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-          maxCrossAxisExtent: MediaQuery.of(context).size.width / 2,
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          //maxCrossAxisExtent: MediaQuery.of(context).size.width / 2,
+          crossAxisCount: 2,
           childAspectRatio: 1 / 1,
           crossAxisSpacing: 10,
           mainAxisSpacing: 10,
