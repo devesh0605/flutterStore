@@ -32,12 +32,15 @@ class ProductItem extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
           ),
-          child: FadeInImage(
-            placeholder: AssetImage('assets/images/hanger.gif'),
-            image: NetworkImage(
-              productDetail.imageUrl,
+          child: Hero(
+            tag: productDetail.id,
+            child: FadeInImage(
+              placeholder: AssetImage('assets/images/hanger.gif'),
+              image: NetworkImage(
+                productDetail.imageUrl,
+              ),
+              fit: BoxFit.cover,
             ),
-            fit: BoxFit.cover,
           ),
           footer: GridTileBar(
             title: Text(''),

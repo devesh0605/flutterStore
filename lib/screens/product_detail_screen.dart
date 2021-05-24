@@ -7,6 +7,7 @@ class ProductDetailScreen extends StatelessWidget {
   //static const routeName = '/product-detail';
 
   ProductDetailScreen({@required this.id});
+
   //final String title;
   final String id;
 
@@ -18,35 +19,49 @@ class ProductDetailScreen extends StatelessWidget {
     var data = Provider.of<Products>(context, listen: false).findById(id);
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(data.title),
-      ),
-      drawer: CustomDrawer(),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Container(
-              height: 350,
-              width: double.infinity,
-              child: Image.network(
-                data.imageUrl,
-                fit: BoxFit.cover,
+      // appBar: AppBar(
+      //   title: Text(data.title),
+      // ),
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            expandedHeight: 300,
+            pinned: true,
+            flexibleSpace: FlexibleSpaceBar(
+              centerTitle: true,
+              title: Container(
+                color: Colors.black54,
+                child: Text(
+                  data.title,
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              background: Hero(
+                tag: data.id,
+                child: Image.network(
+                  data.imageUrl,
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
-            SizedBox(
-              height: 10,
-            ),
-            Text(
-              '\$${data.price}',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 20,
+          ),
+          SliverList(
+            delegate: SliverChildListDelegate([
+              SizedBox(
+                height: 10,
               ),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Container(
+              Text(
+                '\$${data.price}',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 20,
+                ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Container(
                 color: Colors.white,
                 padding: EdgeInsets.symmetric(horizontal: 10),
                 child: Text(
@@ -54,9 +69,14 @@ class ProductDetailScreen extends StatelessWidget {
                   style: TextStyle(color: Colors.black, fontSize: 30),
                   textAlign: TextAlign.center,
                   softWrap: true,
-                ))
-          ],
-        ),
+                ),
+              ),
+              SizedBox(
+                height: 800,
+              )
+            ]),
+          )
+        ],
       ),
     );
   }
